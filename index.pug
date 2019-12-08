@@ -28,9 +28,18 @@ html
             br
             ul.collapsible
               li
-                .collapsible-header: h5 Details
+                .collapsible-header: h5 Statistics
                 .collapsible-body
-                  p #[strong Caloric Intake Goal]: 2000 - 2500 kcal
+                  p #[strong Ideal Daily Caloric Intake:] 2000 - 2500 kcal
+                  p #[strong Total Caloric Intake:] #[span.total] kcal
+                  p #[strong Total Caloric Intake per Food Group:]
+                    table
+                      thead
+                        tr
+                          th Type
+                          th kcal
+                          th %
+                      tbody.groups
               li
                 .collapsible-header: h5 Indicators
                 .collapsible-body

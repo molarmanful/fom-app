@@ -1,4 +1,5 @@
 let rand = (a, b)=> Math.random() * (b - a + 1) | 0 + a
+let trunc1 = x=> Math.trunc(x * 10) / 10
 
 let sum = xs=> xs.reduce((x, y)=> x + y)
 let avg = xs=> sum(xs) / xs.length
@@ -30,8 +31,8 @@ let linreg = ys=>{
 }
 
 let days = [...new Array(30)].map((_, i)=> i + 1)
-let groups = ['Grains', 'Fruits', 'Vegetables', 'Meats', 'Dairy', 'Fats/ Oils', 'Sweets']
-let dietdata = [...new Array(30)].map((_, i)=> [...new Array(7)].map(_=> rand(0, 400)))
+let groups = ['Grains', 'Fruits', 'Vegetables', 'Meats', 'Dairy', 'Fats/Oils', 'Sweets']
+let dietdata = [...new Array(30)].map((_, i)=> [...new Array(7)].map(_=> rand(0, 500)))
 
 let opts = {
   type: 'line',
@@ -61,6 +62,7 @@ let dchart
 
 let updateChart = day=>{
   if(day){
+
     $('#diet .time').text('Day ' + day)
     if(dchart.config.type == 'line'){
       dchart.destroy()
@@ -70,16 +72,35 @@ let updateChart = day=>{
         scale: {
           ticks: {
             min: 0,
-            max: 400
+            max: 500
           }
         }
       }
       dchart = new Chart(dietc.getContext('2d'), opts)
     }
+
+    let daydata = dietdata[day - 1]
+    let daysum = sum(daydata)
+
     dchart.data.labels = groups
-    dchart.data.datasets[0].data = dietdata[day - 1]
+    dchart.data.datasets[0].data = daydata
+
+    $('.total').text(daysum)
+
+    $('.groups').text('')
+    groups.map((x, i)=>{
+      $('.groups').append(`
+        <tr>
+          <td>${x}</td>
+          <td>${daydata[i]}</td>
+          <td>${trunc1(daydata[i] / daysum * 100)}</td>
+        </tr>
+      `)
+    })
+
   } else {
-    $('#diet .time').text('the month')
+    $('#diet .time').text('Month')
+
     if(dchart.config.type == 'radar'){
       dchart.destroy()
       opts.type = 'line'
@@ -96,11 +117,27 @@ let updateChart = day=>{
       }
       dchart = new Chart(dietc.getContext('2d'), opts)
     }
+
+    let monsum = dietdata.map(sum)
+
     dchart.data.labels = days
-    dchart.data.datasets[0].data = dietdata.map(sum)
+    dchart.data.datasets[0].data = monsum
+
+    $('.total').text(sum(monsum))
+
+    $('.groups').text('')
+    groups.map((x, i)=>{
+      $('.groups').append(`
+        <tr>
+          <td>${x}</td>
+          <td>${sum(dietdata.map(a=> a[i]))}</td>
+          <td>${trunc1(sum(dietdata.map(a=> a[i])) / sum(monsum) * 100)}</td>
+        </tr>
+      `)
+    })
+
   }
 
-  dchart.reset()
   dchart.update()
 }
 
