@@ -9,40 +9,32 @@ html
     link(href='./style.css' rel='stylesheet')
 
   body.fade
-    .container#weight
-      h1 Weight Analysis
+    .container#diet
+      h1 Diet Analysis
       h5.grey-text #[i.material-icons face] John Doe - Male, 180cm
+      a.dropdown-trigger.btn.waves-effect(data-target='dtimes') Select Time
       .row
         .col.s12
-          ul.tabs#wtimes
-            li.tab.col.s2.offset-s1: a MONTH
-            li.tab.col.s2: a WEEK 1
-            li.tab.col.s2: a WEEK 2
-            li.tab.col.s2: a WEEK 3
-            li.tab.col.s2: a WEEK 4
+          ul.dropdown-content#dtimes
+            li: a MONTH
+            each x, i in Array(30)
+              li: a= 'DAY ' + (i + 1)
         .col.s6
           .card: .card-content
-            canvas#weightc
+            canvas#dietc
         .col.s6
           .card: .card-content
-            h4 You #[span.summary] throughout #[span.range].
+            h4 #[span.time]
             br
             ul.collapsible
               li
                 .collapsible-header: h5 Details
                 .collapsible-body
-                  p #[strong Goal Weight Range]: 65 - 81 kg
-                  p #[strong Starting Weight]: #[span.start] kg
-                  p #[strong Ending Weight]: #[span.end] kg
-                  p #[strong Min Weight]: #[span.min] kg
-                  p #[strong Max Weight]: #[span.max] kg
-                  p #[strong Avg Weight]: #[span.avg] kg
-                  p #[strong Net Change]: #[span.netch] kg
-                  p #[strong Avg Change]: #[span.roc] kg/day
+                  p #[strong Caloric Intake Goal]: 2000 - 2500 kcal
               li
-                .collapsible-header: h5 Recommendations
+                .collapsible-header: h5 Indicators
                 .collapsible-body
-                  ul.collection.wrecs
+                  ul.collection.indics
 
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js')
