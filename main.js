@@ -84,14 +84,46 @@ let updateWeights = (chart, labels, data, wk)=>{
 
   $('#weight .wrecs').text('')
   if((max - data[0] > 1.5 && max - last > 1.5) || (min - data[0] < -1.5 && min - last < -1.5)){
-    $('#weight .wrecs').append('<li class="collection-item orange-text">Try to keep your weight changes more consistent.</li>')
+    $('#weight .wrecs').append(`
+      <li class="collection-item orange-text">
+        <div class="row valign-wrapper">
+          <div class="col s1">
+            <i class="material-icons">timeline</i>
+          </div>
+          <div class="col s11">Try to keep your weight changes more consistent.</div>
+        </div>
+      </li>`)
   }
   if((last >= iwl && last <= iwu)){
-    $('#weight .wrecs').append('<li class="collection-item green-text">You are within your goal weight range. Good work, and keep it up!</li>')
+    $('#weight .wrecs').append(`
+      <li class="collection-item green-text">
+        <div class="row valign-wrapper">
+          <div class="col s1">
+            <i class="material-icons">thumb_up</i>
+          </div>
+          <div class="col s11">You are within your goal weight range. Good work, and keep it up!</div>
+        </div>
+      </li>`)
   } else if((last > iwu && change < -1) || (last < iwl && change > 1)){
-    $('#weight .wrecs').append('<li class="collection-item green-text">You are on track to reaching your goal weight range. Good work, and keep it up!</li>')
+    $('#weight .wrecs').append(`
+      <li class="collection-item green-text">
+        <div class="row valign-wrapper">
+          <div class="col s1">
+            <i class="material-icons">thumb_up</i>
+          </div>
+          <div class="col s11">You are on track to reaching your goal weight range. Good work, and keep it up!</div>
+        </div>
+      </li>`)
   } else {
-    $('#weight .wrecs').append('<li class="collection-item orange-text">You are not at your goal weight range yet, but you can get there. Keep it up!</li>')
+    $('#weight .wrecs').append(`
+      <li class="collection-item orange-text">
+        <div class="row valign-wrapper">
+          <div class="col s1">
+            <i class="material-icons">track_changes</i>
+          </div>
+          <div class="col s11">You are not at your goal weight range yet, but you can get there. Keep it up!</div>
+        </div>
+      </li>`)
   }
 }
 
