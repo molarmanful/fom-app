@@ -31,11 +31,14 @@ let linreg = ys=>{
 }
 
 let days = [...new Array(30)].map((_, i)=> i + 1)
+let now = 0
 let groups = ['Grains', 'Fruits', 'Vegetables', 'Meats', 'Dairy', 'Fats/Oils', 'Sweets']
+let rechigh = [600, 200, 500, 100, 335, 700, 150]
+let reclow = [225, 115, 355, 0, 225, 400, 0]
 let dietdata = [...new Array(30)].map((_, i)=> [...new Array(7)].map(_=> rand(0, 500)))
 
 let opts = {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: days,
     datasets: [{
@@ -60,11 +63,23 @@ let opts = {
 
 let dchart
 
+let indic = (color, icon, content)=>{
+  $('.indics').append(`
+    <li class="collection-item">
+      <div class="row valign-wrapper ${color}-text">
+        <div class="col s1"><i class="material-icons">${icon}</i></div>
+        <div class="col s11">${content}</div>
+      </div>
+    </li>
+  `)
+}
+
 let updateChart = day=>{
+  now = day
   if(day){
 
     $('#diet .time').text('Day ' + day)
-    if(dchart.config.type == 'line'){
+    if(dchart.config.type == 'bar'){
       dchart.destroy()
       opts.type = 'radar'
       opts.options = {
@@ -97,13 +112,23 @@ let updateChart = day=>{
         </tr>
       `)
     })
+    $('.indics').html('')
+    daydata.map((x, i)=>{
+      if(x > rechigh[i] * 1.1){
+        indic('orange', 'warning', 'High intake of ' + groups[i])
+      } else if(x < reclow[i] * .9){
+        indic('orange', 'warning', 'Low intake of ' + groups[i])
+      } else {
+        indic('green', 'done', 'Good intake of ' + groups[i])
+      }
+    })
 
   } else {
     $('#diet .time').text('Month')
 
     if(dchart.config.type == 'radar'){
       dchart.destroy()
-      opts.type = 'line'
+      opts.type = 'bar'
       opts.options = {
         aspectRatio: 4 / 3,
         scales: {
@@ -136,6 +161,8 @@ let updateChart = day=>{
       `)
     })
 
+    $('.indics').html('')
+
   }
 
   dchart.update()
@@ -149,6 +176,18 @@ $(_=>{
 
   $('#dtimes a').click(e=>{
     updateChart($(e.target).parent().index())
+  })
+
+  $('.prev').click(e=>{
+    if(now){
+      updateChart(now - 1)
+    }
+  })
+
+  $('.next').click(e=>{
+    if(now < 30){
+      updateChart(now + 1)
+    }
   })
 
   $('body').removeClass('fade')

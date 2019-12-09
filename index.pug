@@ -11,8 +11,10 @@ html
   body.fade
     .container#diet
       h1 Diet Analysis
-      h5.grey-text #[i.material-icons face] John Doe - Male, 180cm
+      h5.grey-text #[i.material-icons face] John Doe - Male, 27yo, 180cm
+      a.btn.waves-effect.prev &lt;
       a.dropdown-trigger.btn.waves-effect(data-target='dtimes') Select Time
+      a.btn.waves-effect.next &gt;
       .row
         .col.s12
           ul.dropdown-content#dtimes
@@ -26,24 +28,24 @@ html
           .card: .card-content
             h4 #[span.time]
             br
-            ul.collapsible
-              li
-                .collapsible-header: h5 Statistics
-                .collapsible-body
-                  p #[strong Ideal Daily Caloric Intake:] 2000 - 2500 kcal
-                  p #[strong Total Caloric Intake:] #[span.total] kcal
-                  p #[strong Total Caloric Intake per Food Group:]
-                    table
-                      thead
-                        tr
-                          th Type
-                          th kcal
-                          th %
-                      tbody.groups
-              li
-                .collapsible-header: h5 Indicators
-                .collapsible-body
-                  ul.collection.indics
+            .row
+              ul.tabs
+                li.tab.cols.s6: a.active(href='#stats') Statistics
+                li.tab.cols.s6: a(href='#inds') Indicators
+              br
+              .col.s12#stats
+                p #[strong Ideal Daily Caloric Intake:] 2000 - 2500 kcal
+                p #[strong Total Caloric Intake:] #[span.total] kcal
+                p #[strong Total Caloric Intake per Food Group:]
+                  table
+                    thead
+                      tr
+                        th Type
+                        th kcal
+                        th %
+                    tbody.groups
+              .col.s12#inds
+                ul.collection.indics
 
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js')
