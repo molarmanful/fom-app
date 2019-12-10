@@ -117,7 +117,7 @@ let updateChart = day=>{
       if(x > rechigh[i] * 1.1){
         indic('orange', 'warning', 'High intake of ' + groups[i])
       } else if(x < reclow[i] * .9){
-        indic('orange', 'warning', 'Low intake of ' + groups[i])
+        indic('grey', 'warning', 'Low intake of ' + groups[i])
       } else {
         indic('green', 'done', 'Good intake of ' + groups[i])
       }
@@ -162,6 +162,12 @@ let updateChart = day=>{
     })
 
     $('.indics').html('')
+    let kcalon = monsum.filter(x=> x >= 2000 && x <= 2500).length
+    let kcalhigh = monsum.filter(x=> x > 2500).length
+    let kcallow = monsum.filter(x=> x < 2000).length
+    indic(...(kcalon >= 20 ? ['green', 'done'] : ['orange', 'warning']), `${kcalon} / 30 days met caloric intake goals`)
+    indic(...(kcalhigh < 10 ? ['green', 'done'] : ['orange', 'warning']), `${kcalhigh} / 30 days overshot caloric intake goals`)
+    indic(...(kcallow < 10 ? ['green', 'done'] : ['orange', 'warning']), `${kcallow} / 30 days undershot caloric intake goals`)
 
   }
 
